@@ -41,4 +41,46 @@
     });
   
   });
+
+  $('#tbcampus').change(function() {
+    var id_campus = $(this).val();
+ 
+      $.ajax({
+      type: "POST",
+      url: "ajax_db.php",
+      data: {groupid:id_campus,function:'tbcampus'},
+      success: function(data){
+          $('#tbgroup').html(data); 
+          $('#tbbranch').html(' '); 
+          $('#tbcourse').html(' ');   
+      }
+    });
+  });
+ 
+  $('#tbgroup').change(function() {
+    var id_group = $(this).val();
+ 
+      $.ajax({
+      type: "POST",
+      url: "ajax_db.php",
+      data: {branchid:id_group,function:'tbgroup'},
+      success: function(data){
+          $('#tbbranch').html(data);  
+      }
+    });
+  });
+ 
+  $('#tbbranch').change(function() {
+    var id_branch = $(this).val();
+ 
+      $.ajax({
+      type: "POST",
+      url: "ajax_db.php",
+      data: {courseid:id_branch,function:'tbbranch'},
+      success: function(data){
+          $('#tbcourse').html(data);  
+      }
+    });
+  });
+
 </script>

@@ -34,3 +34,40 @@ if (isset($_POST['function']) && $_POST['function'] == 'amphures') {
     exit();
   }
 ?>
+
+<?php
+  
+  if (isset($_POST['function']) && $_POST['function'] == 'tbcampus') {
+  	$id = $_POST['groupid'];
+  	$sql = "SELECT * FROM tbgroup WHERE campusid='$id'";
+  	$query2 = mysqli_query($conn, $sql);
+  	echo '<option value="" selected disabled>-กรุณาเลือกคณะ-</option>';
+  	foreach ($query2 as $value4) {
+  		echo '<option value="'.$value4['groupid'].'">'.$value4['groupname'].'</option>';
+  		
+  	}
+  }
+ 
+ 
+  if (isset($_POST['function']) && $_POST['function'] == 'tbgroup') {
+    $id = $_POST['branchid'];
+    $sql = "SELECT * FROM tbbranch WHERE groupid='$id'";
+    $query2 = mysqli_query($conn, $sql);
+    echo '<option value="" selected disabled>-กรุณาเลือกสาขา-</option>';
+    foreach ($query2 as $value5) {
+      echo '<option value="'.$value5['branchid'].'">'.$value5['branchname'].'</option>';
+      
+    }
+  }
+ 
+  if (isset($_POST['function']) && $_POST['function'] == 'tbbranch') {
+    $id = $_POST['courseid'];
+    $sql = "SELECT * FROM tbcourse WHERE branchid='$id'";
+    $query2 = mysqli_query($conn, $sql);
+    echo '<option value="" selected disabled>-กรุณาเลือกหลักสูตร-</option>';
+    foreach ($query2 as $value6) {
+      echo '<option value="'.$value6['courseid'].'">'.$value6['coursename'].'</option>';
+      
+    }
+  }
+?>

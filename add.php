@@ -4,6 +4,10 @@
 
     $sql_provinces = "SELECT * FROM provinces";
     $query = mysqli_query($conn, $sql_provinces);
+
+    $sql_campus = "SELECT * FROM tbcampus";
+    $query2 = mysqli_query($conn, $sql_campus);
+
 // ตรวจสอบว่าฟอร์มถูกส่งมาหรือไม่
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     // เก็บข้อมูลจากฟอร์ม
@@ -20,11 +24,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $emailusername = $_POST['emailusername'];
 
+    $useraddress = $_POST['useraddress'];
+
     $provinces = $_POST['Ref_prov_id'];
 
     $amphures = $_POST['Ref_dist_id'];
 
     $districts = $_POST['Ref_subdist_id'];
+
+    $campus = $_POST['campus_id'];
+
+    $group = $_POST['group_id'];
+
+    $branch = $_POST['branch_id'];
+
+    $course = $_POST['course_id'];
+
+    $usercitizen = $_POST['usercitizen'];
+
+    $userbirthday = $_POST['userbirthday']; //(ปี-เดือน-วัน)
 
     //ดำเนินการ เป็นลำดับ บนลง-ล่าง
 
@@ -60,11 +78,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sql6 = "INSERT INTO tbphoneuser (phoneusername, historyuserid) VALUES ('$phoneusername', '$historyuser_id')";
     $result6 = mysqli_query($conn, $sql6) or die ("Error in query: $sql6" . mysqli_error());
+
+    $sql7 = "INSERT INTO tbuser (useraddress, usercitizen, userbirthday) VALUES ('$useraddress', '$usercitizen' ,'$userbirthday')";
+    $result7 = mysqli_query($conn, $sql7) or die ("Error in query: $sql7" . mysqli_error());
     
     mysqli_close($conn);
 
     // ตรวจสอบว่าการแทรกสำเร็จหรือไม่
-    if ( $result2 && $result3 && $result4 && $result5 && $result6 ){
+    if ( $result2 && $result3 && $result4 && $result5 && $result6 && $result7){
         echo "<script type='text/javascript'>";
         echo "alert('successfully');";
         echo"window.location = 'add.php';";
@@ -125,7 +146,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="lastnamename" placeholder="นามสกุล"><br>
         <input type="email" name="emailusername" placeholder="อีเมล"><br>
         <input type="text" name="phoneusername" placeholder="เบอร์ติดต่อ"><br>
-        <input type="text" name="useraddress" placeholder="ที่อยู่"><br>
+        <input type="text" name="useraddress" placeholder="บ้านเลขที่/ถนน"><br>
          
         
             <label for="sel1">จังหวัด:</label>
@@ -156,7 +177,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="sel1">วิทยาเขต:</label>
             <select class="form-control" name="campus_id" id="tbcampus">
                 <option value="" selected disabled>-กรุณาเลือกวิทยาเขต-</option>
-                <?php foreach ($query as $value) { ?>
+                <?php foreach ($query2 as $value) { ?>
                 <option value="<?=$value['campusid']?>"><?=$value['campusname']?></option>
                 <?php } ?>
             </select>
@@ -177,11 +198,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         </select>
         <br>
         
-        <input type="text" name="campusname" placeholder="วิทยาเขต"><br>
-        <input type="text" name="groupname" placeholder="คณะ"><br>
-        <input type="text" name="branchname" placeholder="สาขา"><br>
-        <input type="text" name="coursename" placeholder="หลักสูตร"><br>
-        <input type="text" name="usercitizen" placeholder="เลขบัตรประชาชน"><br>
+        <input type="text" name="usercitizen" placeholder="เลขบัตรประชาชน"><br><br>
+        <label for="sel1">วันเกิด:&nbsp;&nbsp;</label>
+        <input type="date" name="userbirthday" placeholder="วัน/เดือน/ปีเกิด"><br><br>
         <input type="text" name="companyname" placeholder="ชื่อสถานที่ทำงาน"><br>
         <input type="text" name="companyjob" placeholder="ตำแหน่ง"><br>
         <input type="text" name="emailcomname" placeholder="อีเมลที่ทำงาน"><br>
