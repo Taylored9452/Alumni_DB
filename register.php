@@ -37,6 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $insert_user_query = $conn->prepare("INSERT INTO tblogin (loginname,loginpassword) VALUES (?, ?)");
         $insert_user_query->bind_param("ss", $username, $hashed_password);
 
+        $user_id = mysqli_insert_id($conn);
+
+        $sql = "INSERT INTO tbuser (loginname, useraddress, historyuserid, courseid, tambonid, usercitizen, userbirthday) VALUES ('$user_id','', '', '', '', '' ,'')";
+        $result = mysqli_query($conn, $sql) or die ("Error in query: $sql" . mysqli_error());
+
         // Execute the SQL query
         if ($insert_user_query->execute()) {
             header("Location: login.php");

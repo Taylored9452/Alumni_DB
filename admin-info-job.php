@@ -9,14 +9,11 @@ join tbhistoryuser as htu on u.historyuserid = htu.historyuserid
 join tbprefix as p on htu.prefixid = p.prefixid
 join tbfirstname as f on htu.firstnameid = f.firstnameid
 join tblastname as l on htu.lastnameid = l.lastnameid
-join tbtambon as a on u.tambonid = a.tambonid 
-join tbcity as b on a.cityid = b.cityid
-join tbprovince as c on b.provinceid = c.provinceid
 join tbcourse as co on u.courseid = co.courseid
 join tbbranch as br on co.branchid = br.branchid
 join tbgroup as gr on br.groupid = gr.groupid
 join tbcampus as ca on gr.campusid = ca.campusid
-join tblogin as lo on u.loginname = lo.loginname
+join tblogin as lo on u.loginid = lo.loginid
 join tbtype as ty on lo.typeid = ty.typeid";
 $query_sql = mysqli_query($conn, $sql);
 ?>

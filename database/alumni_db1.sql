@@ -10,54 +10,38 @@ CREATE TABLE tbtype(
     constraint PK_Type primary key (typeid)
 )ENGINE=InnoDB default charset=utf16;
 
-insert into tbtype(typename) values ('admin');
-insert into tbtype(typename) values ('alumni');
-select * from tbtype;
-
 CREATE TABLE tblogin(
+	loginid						int(10)        		UNSIGNED NOT NULL AUTO_INCREMENT,
 	loginname					varchar(50)        COLLATE utf16_general_ci NOT NULL UNIQUE,
-	loginpassword              	varchar(50)        COLLATE utf16_general_ci NOT NULL,
+	loginpassword              	varchar(255)        COLLATE utf16_general_ci NOT NULL,
 	typeid						int(11)				UNSIGNED NOT NULL DEFAULT 2,
     
-    PRIMARY KEY (loginname), 
+    PRIMARY KEY (loginid), 
     constraint FK_Login_Type foreign key (typeid) references tbtype(typeid) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
 
-insert into tblogin(loginname, loginpassword, typeid) values ('Ta1', '1234', 1);
-insert into tblogin(loginname, loginpassword, typeid) values ('Ta2', '5678', 2);
-select * from tblogin;
-select a.loginname, a.loginpassword, b.typename
-from tblogin as a 
-inner join tbtype as b on a.typeid = b.typeid;
-
-ALTER TABLE tblogin MODIFY typeid int(11) UNSIGNED NOT NULL DEFAULT 2;
-
 CREATE TABLE tbuser(
 	userid						int(10)        		UNSIGNED NOT NULL AUTO_INCREMENT,
-	loginname              		varchar(50)        COLLATE utf16_general_ci NOT NULL UNIQUE,
-	historyuserid				int(11)				UNSIGNED NOT NULL,
-    courseid					int(11)				UNSIGNED NOT NULL,
-    tambonid					int(11)				UNSIGNED NOT NULL,
+	loginid              		int(11)				UNSIGNED NULL,
+	historyuserid				int(11)				UNSIGNED NULL,
+    courseid					int(11)				UNSIGNED NULL,
+    districts					int(11)				UNSIGNED NULL,
     useraddress					varchar(255)        COLLATE utf16_general_ci NULL,
-    userbirthday              	datetime            DEFAULT CURRENT_TIMESTAMP NULL,
-    usercitizen              	varchar(13)        	NOT NULL,
+    userbirthday              	date            	DEFAULT CURRENT_TIMESTAMP NULL,
+    usercitizen              	varchar(13)        	NULL,
+    userimg              		mediumtext        	NULL,
     
     PRIMARY KEY (userid),
-    constraint FK_User_Loginname foreign key (loginname) references tblogin(loginname) ON update cascade,
+    constraint FK_User_Loginname foreign key (loginid) references tblogin(loginid) ON update cascade,
     constraint FK_User_Historyuser foreign key (historyuserid) references tbhistoryuser(historyuserid) ON update cascade,
-    constraint FK_User_Course foreign key (courseid) references tbcourse(courseid) ON update cascade,
-    constraint FK_User_Tambon foreign key (tambonid) references tbtambon(tambonid) ON update cascade
+    constraint FK_User_Course foreign key (courseid) references tbcourse(courseid) ON update cascade
+    -- constraint FK_User_districts foreign key (id) references districts(id) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
 
 alter table tbuser MODIFY usercitizen varchar(13) NOT NULL;
 select * from tbuser;
 
-select userid, loginname, p.prefixname , f.firstnamename , l.lastnamename
-from tbhistoryuser as p 
-inner join tbcity as b on a.cityid = b.cityid
-inner join tbprovince as c on b.provinceid = c.provinceid;
-
--- TB Place
+-- TB Place ใช้อันใหม่ที่ อยู่บนบุ็คมาร์ค NO USE
 
 CREATE TABLE tbprovince(
 	provinceid					int(10)        		UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -240,10 +224,10 @@ CREATE TABLE tbcompany(
 	companyid					int(10)        		UNSIGNED NOT NULL AUTO_INCREMENT,
 	companyname              	varchar(50)        	COLLATE utf16_general_ci NOT NULL,
     companyjob					varchar(50)        	COLLATE utf16_general_ci NOT NULL,
-	tambonid					int(11)				UNSIGNED NOT NULL,
+	districts					int(11)				UNSIGNED NOT NULL,
     
-    PRIMARY KEY (companyid), 
-    constraint FK_Company_Tambon foreign key (tambonid) references tbtambon(tambonid) ON update cascade
+    PRIMARY KEY (companyid) 
+    -- constraint FK_Company_Tambon foreign key (tambonid) references tbtambon(tambonid) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
 
 CREATE TABLE tbemailcom(
