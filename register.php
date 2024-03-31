@@ -36,28 +36,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // SQL to insert data into the database for user_information table
         $insert_user_query = $conn->prepare("INSERT INTO tblogin (loginname,loginpassword) VALUES (?, ?)");
         $insert_user_query->bind_param("ss", $username, $hashed_password);
-
-        $user_id = mysqli_insert_id($conn);
-
-        $sql = "INSERT INTO tbuser (loginname, useraddress, historyuserid, courseid, tambonid, usercitizen, userbirthday) VALUES ('$user_id','', '', '', '', '' ,'')";
-        $result = mysqli_query($conn, $sql) or die ("Error in query: $sql" . mysqli_error());
-
-        // Execute the SQL query
+        echo $username;
+    
+        // Execute the SQL query to insert user data
         if ($insert_user_query->execute()) {
+            // Get the ID of the inserted user
+            $user_id = mysqli_insert_id($conn);
+            echo $user_id;
+            // Insert additional data into tbuser table
+            $sql = "INSERT INTO tbuser (loginid) VALUES ('$user_id')";
+            $result = mysqli_query($conn, $sql) or die ("Error in query: $sql" . mysqli_error($conn));
+
+            // Redirect to login page if everything is successful
             header("Location: login.php");
             exit();
         } else {
+            // If execution fails, handle error
             $errors[] = "An error occurred while adding data.";
         }
-    }
 
-    // Close prepared statements
-    $check_user_query->close();
-    if ($insert_user_query != null) {
-        $insert_user_query->close();
+        // Close prepared statements
+        $check_user_query->close();
+        if ($insert_user_query != null) {
+            $insert_user_query->close();
+        }
     }
 }
-
 $conn->close();
 
 
