@@ -24,6 +24,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $emailusername = $_POST['emailusername'];
 
+    $phoneusername = $_POST['phoneusername'];
+
     $useraddress = $_POST['useraddress'];
 
     $provinces = $_POST['Ref_prov_id'];
@@ -43,6 +45,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $usercitizen = $_POST['usercitizen'];
 
     $userbirthday = $_POST['userbirthday']; //(ปี-เดือน-วัน)
+
+    $companyname = $_POST['companyname'];
+
+    $companyjob = $_POST['companyjob'];
+
+    $emailcomname = $_POST['emailcomname'];
+
+    $phonecomname = $_POST['phonecomname'];
 
     //ดำเนินการ เป็นลำดับ บนลง-ล่าง
 
@@ -79,13 +89,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql6 = "INSERT INTO tbphoneuser (phoneusername, historyuserid) VALUES ('$phoneusername', '$historyuser_id')";
     $result6 = mysqli_query($conn, $sql6) or die ("Error in query: $sql6" . mysqli_error());
 
-    $sql7 = "INSERT INTO tbuser (useraddress, usercitizen, userbirthday) VALUES ('$useraddress', '$usercitizen' ,'$userbirthday')";
+    //
+    $sql7 = "INSERT INTO tbuser (useraddress, historyuserid, courseid, tambonid, usercitizen, userbirthday) VALUES ('$useraddress', '$historyuser_id', '$course', '$districts', '$usercitizen' ,'$userbirthday')";
     $result7 = mysqli_query($conn, $sql7) or die ("Error in query: $sql7" . mysqli_error());
+    //
+
+    $sql8 = "INSERT INTO tbcompany (companyname, companyjob ,districts) VALUES ('$companyname', '$companyjob', '$districts')";
+    $result8 = mysqli_query($conn, $sql8) or die ("Error in query: $sql8" . mysqli_error());
+
+    $company_id = mysqli_insert_id($conn);
+
+    $sql9 = "INSERT INTO tbemailcom (emailcomname, companyid) VALUES ('$emailcomname', '$company_id')";  //นำเข้าข้อมูลโดยใช้ historyuser_id ล่าสุด
+    $result9 = mysqli_query($conn, $sql9) or die ("Error in query: $sql9" . mysqli_error());
+
+    $sql10 = "INSERT INTO tbphonecom (phonecomname, companyid) VALUES ('$phonecomname', '$company_id')";
+    $result10 = mysqli_query($conn, $sql10) or die ("Error in query: $sql10" . mysqli_error());
     
     mysqli_close($conn);
 
     // ตรวจสอบว่าการแทรกสำเร็จหรือไม่
-    if ( $result2 && $result3 && $result4 && $result5 && $result6 && $result7){
+    if ( $result2 && $result3 && $result4 && $result5 && $result6 && $result7 && $result8 && $result9 && $result10){
         echo "<script type='text/javascript'>";
         echo "alert('successfully');";
         echo"window.location = 'add.php';";
@@ -198,7 +221,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         </select>
         <br>
         
-        <input type="text" name="usercitizen" placeholder="เลขบัตรประชาชน"><br><br>
+        <input type="text" name="usercitizen" placeholder="เลขบัตรประชาชน" maxlength="13"><br><br>
         <label for="sel1">วันเกิด:&nbsp;&nbsp;</label>
         <input type="date" name="userbirthday" placeholder="วัน/เดือน/ปีเกิด"><br><br>
         <input type="text" name="companyname" placeholder="ชื่อสถานที่ทำงาน"><br>
