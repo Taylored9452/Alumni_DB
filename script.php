@@ -83,4 +83,47 @@
     });
   });
 
+  $('#province').change(function() {
+    var id_province = $(this).val();
+ 
+      $.ajax({
+      type: "POST",
+      url: "ajax_db.php",
+      data: {id:id_province,function:'province'},
+      success: function(data){
+          $('#amphure').html(data); 
+          $('#district').html(' '); 
+          $('#district').val(' ');  
+          $('#zip_code1').val(' '); 
+      }
+    });
+  });
+ 
+  $('#amphure').change(function() {
+    var id_amphures = $(this).val();
+ 
+      $.ajax({
+      type: "POST",
+      url: "ajax_db.php",
+      data: {id:id_amphures,function:'amphure'},
+      success: function(data){
+          $('#district').html(data);  
+      }
+    });
+  });
+ 
+   $('#district').change(function() {
+    var id_districts= $(this).val();
+ 
+      $.ajax({
+      type: "POST",
+      url: "ajax_db.php",
+      data: {id:id_districts,function:'district'},
+      success: function(data){
+          $('#zip_code1').val(data)
+      }
+    });
+  
+  });
+
 </script>

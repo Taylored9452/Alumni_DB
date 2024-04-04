@@ -53,6 +53,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $districts = $_POST['Ref_subdist_id'];
 
+    $provincesCom = $_POST['Cef_prov_id'];
+
+    $amphuresCom = $_POST['Cef_dist_id'];
+
+    $districtsCom = $_POST['Cef_subdist_id'];
+
     $campus = $_POST['campus_id'];
 
     $group = $_POST['group_id'];
@@ -102,30 +108,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     echo $historyuser_id;
     
-    $sql5 = "INSERT IGNORE INTO tbemailuser (emailusername, historyuserid) VALUES ('$emailusername', '$historyuser_id')";  //นำเข้าข้อมูลโดยใช้ historyuser_id ล่าสุด
+    $sql5 = "INSERT IGNORE INTO tbemailuser (emailusername, historyuserid) VALUES ('$emailusername', '$historyuser_id') on duplicate key update historyuserid = values(historyuserid)";  //นำเข้าข้อมูลโดยใช้ historyuser_id ล่าสุด
     $result5 = mysqli_query($conn, $sql5) or die ("Error in query: $sql5" . mysqli_error());
-    $get_sql5 = "SELECT emailusername, historyuserid FROM tbemailuser WHERE emailusername = '$emailusername'AND historyuserid = '$historyuser_id' " ;             //เลือกข้อมูลใน DB แทน 
-    $result_get5 = mysqli_query($conn, $get_sql5) or die ("Error in query: $get_sql5" . mysqli_error());
+    
 
-    $sql6 = "INSERT IGNORE INTO tbphoneuser (phoneusername, historyuserid) VALUES ('$phoneusername', '$historyuser_id')";
+    echo $emailusername;
+
+    $sql6 = "INSERT IGNORE INTO tbphoneuser (phoneusername, historyuserid) VALUES ('$phoneusername', '$historyuser_id') on duplicate key update historyuserid = values(historyuserid)";
     $result6 = mysqli_query($conn, $sql6) or die ("Error in query: $sql6" . mysqli_error());
-    $get_sql6 = "SELECT phoneusername, historyuserid FROM tbphoneuser WHERE phoneusername = '$phoneusername'AND historyuserid = '$historyuser_id' " ;             //เลือกข้อมูลใน DB แทน 
-    $result_get6 = mysqli_query($conn, $get_sql6) or die ("Error in query: $get_sql6" . mysqli_error());
+    
 
     //
     $sql7 = "UPDATE tbuser SET useraddress = '$useraddress', courseid = '$course', districts = '$districts', usercitizen = '$usercitizen', userbirthday = '$userbirthday' WHERE loginid ='$loginid'";
     $result7 = mysqli_query($conn, $sql7) or die ("Error in query: $sql7" . mysqli_error());
     //
 
-    $sql8 = "INSERT INTO tbcompany (companyname, companyjob ,districts) VALUES ('$companyname', '$companyjob', '$districts')";
+    $sql8 = "INSERT INTO tbcompany (companyname, companyjob ,districts) VALUES ('$companyname', '$companyjob', '$districtsCom')";
     $result8 = mysqli_query($conn, $sql8) or die ("Error in query: $sql8" . mysqli_error());
 
     $company_id = mysqli_insert_id($conn);
 
-    $sql9 = "INSERT INTO tbemailcom (emailcomname, companyid) VALUES ('$emailcomname', '$company_id')";  //นำเข้าข้อมูลโดยใช้ historyuser_id ล่าสุด
+    $sql9 = "INSERT INTO tbemailcom (emailcomname, companyid) VALUES ('$emailcomname', '$company_id') on duplicate key update companyid = values(companyid)";  //นำเข้าข้อมูลโดยใช้ historyuser_id ล่าสุด
     $result9 = mysqli_query($conn, $sql9) or die ("Error in query: $sql9" . mysqli_error());
 
-    $sql10 = "INSERT INTO tbphonecom (phonecomname, companyid) VALUES ('$phonecomname', '$company_id')";
+    $sql10 = "INSERT INTO tbphonecom (phonecomname, companyid) VALUES ('$phonecomname', '$company_id') on duplicate key update companyid = values(companyid)";
     $result10 = mysqli_query($conn, $sql10) or die ("Error in query: $sql10" . mysqli_error());
 
     $sql11 = "INSERT INTO tbhistorycom (userid, companyid) VALUES ('$loginid', '$company_id')";
@@ -134,7 +140,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_close($conn);
 
     // ตรวจสอบว่าการแทรกสำเร็จหรือไม่
-    if ( $result2 && $result3 && $result4 && $result5 && $result6 && $result7 && $result8 && $result9 && $result10 && $result10){
+    if ( $result2 || $result3 || $result4 || $result5 || $result6 || $result7 || $result8 || $result9 || $result10 || $result11){
         echo "<script type='text/javascript'>";
         echo "alert('successfully');";
         echo"window.location = 'edit.php';";
@@ -255,7 +261,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="emailcomname" placeholder="อีเมลที่ทำงาน"><br>
         <input type="text" name="phonecomname" placeholder="เบอร์ที่ทำงาน"><br>
         
-        <!-- <input type="hidden" name="prefixid" id="prefixid"> -->
+            <label for="sel1">จังหวัด:</label>
+            <select class="form-control" name="Cef_prov_id" id="province">
+                <option value="" selected disabled>-กรุณาเลือกจังหวัด-</option>
+                <?php foreach ($query as $value) { ?>
+                <option value="<?=$value['id']?>"><?=$value['name_th']?></option>
+
+                <?php } ?>
+            </select>
+            <br>
+    
+        <label for="sel1">อำเภอ:</label>
+        <select class="form-control" name="Cef_dist_id" id="amphure">
+        </select>
+        <br>
+    
+        <label for="sel1">ตำบล:</label>
+        <select class="form-control" name="Cef_subdist_id" id="district">
+        </select>
+        <br>
+    
+        <label for="sel1">รหัสไปรษณีย์:</label>
+        <input type="text" name="zip_code" id="zip_code1" class="form-control">
+            <br>
 
         <button type="submit">ยืนยัน</button>
     </form>

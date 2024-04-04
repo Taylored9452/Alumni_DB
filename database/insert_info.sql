@@ -39,3 +39,11 @@ SELECT LAST_INSERT_ID();
 
 INSERT INTO tbhistoryuser (prefixid, firstnameid, lastnameid) VALUES ('$prefixid', '$firstnamename_id', '$lastnamename_id');
 SELECT last_insert_rowid();
+
+insert into tbemailuser
+(emailusername,historyuserid)
+values
+  ('Ta2@gmail.com',2)
+  
+on duplicate key update historyuserid = values(historyuserid)
+  
