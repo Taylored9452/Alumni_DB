@@ -2,6 +2,25 @@
 
 <?php 
 
+    session_start();
+    echo '<pre>';
+    print_r($_SESSION);
+    echo '</pre>';
+
+    $loginid = $_SESSION['loginid'];
+
+    $sql_user = "SELECT * FROM tbuser WHERE loginid = '$loginid'";
+    $query3 = mysqli_query($conn, $sql_user) or die ("Error in query: $sql2" . mysqli_error());
+
+    $row1 = mysqli_fetch_array($query3);
+    extract($row1);
+
+    $loginid = $row1['loginid'];
+
+    echo '<pre>';
+    print_r($row1);
+    echo '</pre>';
+
     $sql_provinces = "SELECT * FROM provinces";
     $query = mysqli_query($conn, $sql_provinces);
 
@@ -93,6 +112,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql7 = "INSERT INTO tbuser (useraddress, historyuserid, courseid, tambonid, usercitizen, userbirthday) VALUES ('$useraddress', '$historyuser_id', '$course', '$districts', '$usercitizen' ,'$userbirthday')";
     $result7 = mysqli_query($conn, $sql7) or die ("Error in query: $sql7" . mysqli_error());
     //
+    echo $_SESSION['loginname'];
 
     $sql8 = "INSERT INTO tbcompany (companyname, companyjob ,districts) VALUES ('$companyname', '$companyjob', '$districts')";
     $result8 = mysqli_query($conn, $sql8) or die ("Error in query: $sql8" . mysqli_error());
@@ -104,6 +124,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sql10 = "INSERT INTO tbphonecom (phonecomname, companyid) VALUES ('$phonecomname', '$company_id')";
     $result10 = mysqli_query($conn, $sql10) or die ("Error in query: $sql10" . mysqli_error());
+
+    $sql11 = "INSERT INTO tbhistorycom (userid, companyid) VALUES ('$phonecomname', '$company_id')";
+    $result11 = mysqli_query($conn, $sql11) or die ("Error in query: $sql11" . mysqli_error());
     
     mysqli_close($conn);
 

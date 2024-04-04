@@ -1,6 +1,6 @@
 insert into tbtype(typename) values ('admin'),('alumni');
 
-insert into tblogin(loginname, loginpassword, typeid) values ('Ta1', '$2y$10$FIkHJqi2knPtGHryug8eX.Rz7KBOR49/ePAVnKirn18WBOVBXtNse', 1),('Ta2', '$2y$10$FIkHJqi2knPtGHryug8eX.Rz7KBOR49/ePAVnKirn18WBOVBXtNse', 2);
+insert into tblogin(loginname, loginpassword, typeid) values ('admin', '$2y$10$FIkHJqi2knPtGHryug8eX.Rz7KBOR49/ePAVnKirn18WBOVBXtNse', 1),('Ta1', '$2y$10$FIkHJqi2knPtGHryug8eX.Rz7KBOR49/ePAVnKirn18WBOVBXtNse', 2);
 -- PWD 123!!
 insert into tbcampus(campusname) values ('วิทยาเขตสงขลา'),('วิทยาเขตสตูล');
 
@@ -16,7 +16,9 @@ insert into tblastname(lastnamename) values ('จันทร์บูรณ์1
 
 insert into tbprefix(prefixname,prefixaname) values ('นาย','นาย'),('นางสาว','น.ส.');
 
-insert into tbhistoryuser(prefixid,firstnameid,lastnameid) values (1,1,1),(2,2,2);
+insert into tbuser(loginid,courseid,districts,useraddress,usercitizen) values (1,1,1,null,1234567891234),(2,2,2,null,1234567894321);
+
+insert into tbhistoryuser(prefixid,firstnameid,lastnameid,userid) values (1,1,1,1),(2,2,2,2);
 
 insert into tbemailuser(emailusername,historyuserid) values ('Ta1@gmail.com',1),('Ta2@gmail.com',2);
 
@@ -27,8 +29,6 @@ insert into tbcompany(companyname,companyjob,districts) values ('ไทยจำ
 insert into tbemailcom(emailcomname,companyid) values ('Tac1@gmail.com',1),('Tac2@gmail.com',2);
 
 insert into tbphonecom(phonecomname,companyid) values ('0770114444',1),('0660114444',2);
-
-insert into tbuser(loginid,historyuserid,courseid,districts,useraddress,usercitizen) values (1,1,1,1,null,1234567891234),(2,2,2,2,null,1234567894321);
 
 insert into tbhistorycom(userid,companyid) values (1,1),(2,2);
 

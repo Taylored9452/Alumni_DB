@@ -23,7 +23,7 @@ CREATE TABLE tblogin(
 CREATE TABLE tbuser(
 	userid						int(10)        		UNSIGNED NOT NULL AUTO_INCREMENT,
 	loginid              		int(11)				UNSIGNED NULL,
-	historyuserid				int(11)				UNSIGNED NULL,
+	-- historyuserid				int(11)				UNSIGNED NULL,
     courseid					int(11)				UNSIGNED NULL,
     districts					int(11)				UNSIGNED NULL,
     useraddress					varchar(255)        COLLATE utf16_general_ci NULL,
@@ -33,7 +33,7 @@ CREATE TABLE tbuser(
     
     PRIMARY KEY (userid),
     constraint FK_User_Loginname foreign key (loginid) references tblogin(loginid) ON update cascade,
-    constraint FK_User_Historyuser foreign key (historyuserid) references tbhistoryuser(historyuserid) ON update cascade,
+    -- constraint FK_User_Historyuser foreign key (historyuserid) references tbhistoryuser(historyuserid) ON update cascade,
     constraint FK_User_Course foreign key (courseid) references tbcourse(courseid) ON update cascade
     -- constraint FK_User_districts foreign key (id) references districts(id) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
@@ -173,12 +173,14 @@ CREATE TABLE tbhistoryuser(
     prefixid              		int(11)				UNSIGNED NOT NULL,
     firstnameid              	int(11)				UNSIGNED NOT NULL,
     lastnameid              	int(11)				UNSIGNED NOT NULL,
-    historyusertime				datetime            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL,
+    userid              		int(10)        		UNSIGNED NOT NULL,
+    historyusertime				timestamp            DEFAULT CURRENT_TIMESTAMP NULL,
     
     PRIMARY KEY (historyuserid), 
     constraint FK_Historyuser_Prefix foreign key (prefixid) references tbprefix(prefixid) ON update cascade,
     constraint FK_Historyuser_Firstname foreign key (firstnameid) references tbfirstname(firstnameid) ON update cascade,
-    constraint FK_Historyuser_Lastname foreign key (lastnameid) references tblastname(lastnameid) ON update cascade
+    constraint FK_Historyuser_Lastname foreign key (lastnameid) references tblastname(lastnameid) ON update cascade,
+    constraint FK_Historyuser_User foreign key (userid) references tbuser(userid) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
 
 CREATE TABLE tbemailuser(
@@ -254,7 +256,7 @@ CREATE TABLE tbhistorycom(
 	historycomid				int(10)        		UNSIGNED NOT NULL AUTO_INCREMENT,
 	userid              		int(10)        		UNSIGNED NOT NULL,
     companyid					int(10)        		UNSIGNED NOT NULL,
-	historyusertime				datetime            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL,
+	historycomtime				timestamp            DEFAULT CURRENT_TIMESTAMP NULL,
     
     PRIMARY KEY (historycomid), 
     constraint FK_Historycom_User foreign key (userid) references tbuser(userid) ON update cascade,
