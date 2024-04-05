@@ -45,24 +45,6 @@ $query_sql = mysqli_query($conn, $sql);
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="admin-address.php" class=""> <!-- ลิ้งไปหน้า admin-address.php -->
-                        <i class="fa-solid fa-building-columns"></i>
-                        สถานที่
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a href="admin-course.php" class=""> <!-- ลิ้งไปหน้า admin-course.php -->
-                        <i class="fa-solid fa-book"></i>
-                        หลักสูตร
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a href="admin-postwork.php" class=""> <!-- ลิ้งไปหน้า admin-postwork.php -->
-                        <i class="fa-solid fa-briefcase"></i>
-                        ประกาศสมัรคงาน
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
                     <a href="admin-news.php" class=""> <!-- ลิ้งไปหน้า admin-news.php -->
                         <i class="fa-solid fa-star"></i>
                         ข่าวสาร

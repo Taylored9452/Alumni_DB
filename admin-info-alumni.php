@@ -3,7 +3,7 @@
 
 <?php 
 $sql = "SELECT u.userid , p.prefixaname, CONCAT(f.firstnamename,' ', l.lastnamename) AS full_name , 
-ca.campusname , gr.groupname , br.branchname , co.coursename , userbirthday , usercitizen , typename 
+ca.campusname , gr.groupname , br.branchname , co.coursename , emailusername , phoneusername , typename 
 FROM tbuser as u
 join tbhistoryuser as htu on u.userid = htu.userid
 join tbprefix as p on htu.prefixid = p.prefixid
@@ -14,7 +14,9 @@ join tbbranch as br on co.branchid = br.branchid
 join tbgroup as gr on br.groupid = gr.groupid
 join tbcampus as ca on gr.campusid = ca.campusid
 join tblogin as lo on u.loginid = lo.loginid
-join tbtype as ty on lo.typeid = ty.typeid";
+join tbtype as ty on lo.typeid = ty.typeid
+join tbemailuser as mu on htu.historyuserid = mu.historyuserid
+join tbphoneuser as pu on htu.historyuserid = pu.historyuserid;";
 $query_sql = mysqli_query($conn, $sql);
 ?>
 
@@ -47,8 +49,10 @@ $query_sql = mysqli_query($conn, $sql);
                 <th>คณะ</th>
                 <th>สาขา</th>
                 <th>หลักสูตร</th>
-                <th>เลขบัตรประชาชน</th>
-                <th>ประเภทผู้ใช้</th>
+                <th>อีเมล</th>
+                <th>เบอร์ติดต่อ</th>
+                <th>สถาณะ</th>
+                <th>แก้ไข</th>
                 <th>ลบ</th>
             </thead>
         <tbody>
@@ -63,8 +67,10 @@ $query_sql = mysqli_query($conn, $sql);
                 <td><?php echo $row['groupname']; ?></td>
                 <td><?php echo $row['branchname']; ?></td>
                 <td><?php echo $row['coursename']; ?></td>
-                <td><?php echo $row['usercitizen']; ?></td>
+                <td><?php echo $row['emailusername']; ?></td>
+                <td><?php echo $row['phoneusername']; ?></td>
                 <td><?php echo $row['typename']; ?></td>
+                <td><a href="edit.php?userid=<?php echo $row['userid']; ?>" class="btn btn-primary btn-sm">แก้ไข</a></td>
                 <td><a href="delete.php?userid=<?php echo $row['userid']; ?>" class="btn btn-danger btn-sm">ลบ</a></td> <!-- เพิ่มส่วนนี้ในการแสดงปุ่มแก้ไขในแต่ละแถว -->
             </tr>
     <?php

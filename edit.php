@@ -3,9 +3,9 @@
 <?php 
 
     session_start();
-    echo '<pre>';
-    print_r($_SESSION);
-    echo '</pre>';
+    // echo '<pre>';
+    // print_r($_SESSION);
+    // echo '</pre>';
 
     $loginid = $_SESSION['loginid'];
 
@@ -17,9 +17,9 @@
 
     $loginid = $row1['loginid'];
 
-    echo '<pre>';
-    print_r($row1);
-    echo '</pre>';
+    // echo '<pre>';
+    // print_r($row1);
+    // echo '</pre>';
 
     $sql_provinces = "SELECT * FROM provinces";
     $query = mysqli_query($conn, $sql_provinces);
@@ -31,11 +31,13 @@
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     // เก็บข้อมูลจากฟอร์ม
 
-     echo '<pre>';
-     print_r($_POST);
-     echo '</pre>';
+    $prefixid = $_POST['prefixid'];
 
-    $prefixid = $_POST['prefixid']; 
+    if (!empty($prefixid)) {
+        echo "ค่า prefixid ถูกส่งมา: $prefixid";
+    } else {
+        echo "โปรดเลือกคำนำหน้า";
+    } 
      
     $firstnamename = $_POST['firstnamename']; 
 
@@ -119,8 +121,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     //
-    $sql7 = "UPDATE tbuser SET useraddress = '$useraddress', courseid = '$course', districts = '$districts', usercitizen = '$usercitizen', userbirthday = '$userbirthday' WHERE loginid ='$loginid'";
-    $result7 = mysqli_query($conn, $sql7) or die ("Error in query: $sql7" . mysqli_error());
+    $sql7 = "UPDATE tbuser SET useraddress = '$useraddress', courseid = '$course', districts = '$districts', usercitizen = '$usercitizen', userbirthday = '$userbirthday', userimg = '".basename($_FILES["userimg"]["name"])."' WHERE loginid ='$loginid'";
+    $result7 = mysqli_query($conn, $sql7) or die ("Error in query: $sql7" . mysqli_error($conn));
     //
 
     $sql8 = "INSERT INTO tbcompany (companyname, companyjob ,districts) VALUES ('$companyname', '$companyjob', '$districtsCom')";
@@ -153,6 +155,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         echo"window.location = 'edit.php'; ";
         echo"</script>";
         }
+
+        // ตรวจสอบว่าไฟล์ถูกอัปโหลดโดยไม่มีข้อผิดพลาด
+    if(isset($_FILES["userimg"]) && $_FILES["userimg"]["error"] == 0) {
+        $target_directory = "../alumni_db/Uploads/"; // ไดเรกทอรีเป้าหมายที่คุณต้องการเก็บไฟล์ที่อัปโหลด
+        $target_file = $target_directory . basename($_FILES["userimg"]["name"]);
+
+        // ตรวจสอบว่าไฟล์มีอยู่แล้วหรือไม่
+        if (file_exists($target_file)) {
+            echo "ขอโทษ ไฟล์นี้มีอยู่แล้ว";
+        } else {
+            // ย้ายไฟล์ที่อัปโหลดไปยังไดเรกทอรีเป้าหมาย
+            if (move_uploaded_file($_FILES["userimg"]["tmp_name"], $target_file)) {
+                echo "ไฟล์ ". htmlspecialchars( basename( $_FILES["userimg"]["name"])). " ถูกอัปโหลดเรียบร้อยแล้ว";
+                // ตอนนี้คุณสามารถเก็บที่อยู่หรือชื่อไฟล์ในฐานข้อมูลของคุณ
+                $userimg_path = $target_file; // นี่เป็นตัวอย่างเท่านั้น ปรับเปลี่ยนตามความต้องการ
+            } else {
+                echo "ขอโทษ เกิดข้อผิดพลาดในการอัปโหลดไฟล์ของคุณ";
+            }
+        }
+    }
     }
 ?>
 
@@ -170,8 +192,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <!-- เนื้อหา HTML รวมถึงฟอร์มสำหรับเพิ่มรายการผู้ใช้ใหม่ -->
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <select name="prefixid" id="prefixDropdown" class="custom-dropdown">
+    
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
+            <span style="color: red; font-size: smaller;">*</span> <span style="color: red; font-size: smaller;">จำเป็นต้องมีข้อมูล</span>
+            <br>
+            <select name="prefixid" id="prefixDropdown" class="custom-dropdown" required>
             <option value="" selected disabled>-คำนำหน้า-</option>
             <?php
             // วนลูปเพื่อแสดงตัวเลือกใน dropdown
@@ -197,8 +222,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         </script> -->
 
 
-        <input type="text" name="firstnamename" placeholder="ชื่อ"><br>
-        <input type="text" name="lastnamename" placeholder="นามสกุล"><br>
+        <!-- <input type="text" name="firstnamename" placeholder="ชื่อ" required><br>
+        <input type="text" name="lastnamename" placeholder="นามสกุล" required><br> -->
+        <span style="color: red; font-size: smaller;">*</span> <span style="color: red; font-size: smaller;">จำเป็นต้องมีข้อมูล</span>
+        <input type="text" name="firstnamename" placeholder="ชื่อ" required><br>
+        <span style="color: red; font-size: smaller;">*</span> <span style="color: red; font-size: smaller;">จำเป็นต้องมีข้อมูล</span> 
+        <input type="text" name="lastnamename" placeholder="นามสกุล" required><br>  
         <input type="email" name="emailusername" placeholder="อีเมล"><br>
         <input type="text" name="phoneusername" placeholder="เบอร์ติดต่อ"><br>
         <input type="text" name="useraddress" placeholder="บ้านเลขที่/ถนน"><br>
@@ -284,6 +313,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="sel1">รหัสไปรษณีย์:</label>
         <input type="text" name="zip_code" id="zip_code1" class="form-control">
             <br>
+
+        <label for="sel1">อัพโหลดรูปภาพ:</label>
+        <input type="file" name="userimg" class="form-control streched-link" accept="image/gif, image/jpeg, image/png">
+        <p class="small mb-0 mt-2"><b>Note :</b> เฉพาะไฟล์ประเภท JPG, JPEG, PNG และ GIF</p>
+        <br>
 
         <button type="submit">ยืนยัน</button>
     </form>

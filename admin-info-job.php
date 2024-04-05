@@ -2,19 +2,16 @@
 
 
 <?php 
-$sql = "SELECT u.userid , p.prefixaname, CONCAT(f.firstnamename,' ', l.lastnamename) AS full_name , 
-ca.campusname , gr.groupname , br.branchname , co.coursename , userbirthday , usercitizen , typename 
+$sql = "SELECT u.userid , p.prefixaname, CONCAT(f.firstnamename,' ', l.lastnamename) AS full_name , companyname , companyjob , emailcomname , phonecomname
 FROM tbuser as u
+join tbhistorycom as htc on u.userid = htc.userid
 join tbhistoryuser as htu on u.userid = htu.userid
 join tbprefix as p on htu.prefixid = p.prefixid
 join tbfirstname as f on htu.firstnameid = f.firstnameid
 join tblastname as l on htu.lastnameid = l.lastnameid
-join tbcourse as co on u.courseid = co.courseid
-join tbbranch as br on co.branchid = br.branchid
-join tbgroup as gr on br.groupid = gr.groupid
-join tbcampus as ca on gr.campusid = ca.campusid
-join tblogin as lo on u.loginid = lo.loginid
-join tbtype as ty on lo.typeid = ty.typeid";
+join tbcompany as co on htc.companyid = co.companyid
+join tbemailcom as mc on co.companyid = mc.companyid
+join tbphonecom as pc on co.companyid = pc.companyid;";
 $query_sql = mysqli_query($conn, $sql);
 ?>
 
@@ -43,13 +40,11 @@ $query_sql = mysqli_query($conn, $sql);
                 <th>ลำดับ</th>
                 <th>คำนำหน้า</th>
                 <th>ชื่อ นามสกุล</th>
-                <th>วิทยาเขต</th>
-                <th>คณะ</th>
-                <th>สาขา</th>
-                <th>หลักสูตร</th>
-                <th>เลขบัตรประชาชน</th>
-                <th>ประเภทผู้ใช้</th>
-                <th>แก้ไข</th>
+                <th>ชื่อสถานที่ทำงาน</th>
+                <th>ตำแหน่ง</th>
+                <th>อีเมลที่ทำงาน</th>
+                <th>เบอร์ที่ทำงาน</th>
+                
                 <th>ลบ</th>
             </thead>
         <tbody>
@@ -60,13 +55,11 @@ $query_sql = mysqli_query($conn, $sql);
                 <td><?php echo $row['userid']; ?></td>
                 <td><?php echo $row['prefixaname']; ?></td>
                 <td class="name"><?php echo $row['full_name'];?></td>
-                <td><?php echo $row['campusname']; ?></td>
-                <td><?php echo $row['groupname']; ?></td>
-                <td><?php echo $row['branchname']; ?></td>
-                <td><?php echo $row['coursename']; ?></td>
-                <td><?php echo $row['usercitizen']; ?></td>
-                <td><?php echo $row['typename']; ?></td>
-                <td><a href="edit.php?userid=<?php echo $row['userid']; ?>" class="btn btn-primary btn-sm">แก้ไข</a></td> <!-- เพิ่มส่วนนี้ในการแสดงปุ่มแก้ไขในแต่ละแถว -->
+                <td><?php echo $row['companyname']; ?></td>
+                <td><?php echo $row['companyjob']; ?></td>
+                <td><?php echo $row['emailcomname']; ?></td>
+                <td><?php echo $row['phonecomname']; ?></td>
+                
                 <td><a href="delete.php?userid=<?php echo $row['userid']; ?>" class="btn btn-danger btn-sm">ลบ</a></td> <!-- เพิ่มส่วนนี้ในการแสดงปุ่มแก้ไขในแต่ละแถว -->
             </tr>
     <?php

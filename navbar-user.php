@@ -23,9 +23,6 @@
             <?php 
                 session_start(); // Start Session
                 include('condb.php'); // Include database connection
-                echo '<pre>';
-                print_r($_SESSION);
-                echo '</pre>';
                 // Check if user is logged in
                 if(isset($_SESSION['loginname'])) {
                     // Retrieve user information from the database

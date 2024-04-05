@@ -8,7 +8,7 @@ insert into tbgroup(groupname, campusid) values ('คณะวิศวกรร
 
 insert into tbbranch(branchname, groupid) values ('คอมพิวเตอร์',1),('ไฟฟ้า',2);
 
-insert into tbcourse(coursename, branchid) values ('ปริญญาตรี',1),('ปริญญาโท',2);
+insert into tbcourse(courseid, coursename, branchid) values (1,'ปริญญาตรี',1),(2,'ปริญญาโท',2);
 
 insert into tbfirstname(firstnamename) values ('ธนดล1'),('ธนดล2');
 
@@ -34,6 +34,7 @@ insert into tbhistorycom(userid,companyid) values (1,1),(2,2);
 
 insert into tbpostwork(postworktext,postworksummit,userid) values ('งาน1',0,1),('งาน2',1,1);
 
+-- Exaple
 INSERT INTO tbprefix (prefixname, prefixaname) VALUES ('value8', 'value9'); 
 SELECT LAST_INSERT_ID();
 
