@@ -121,7 +121,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     //
-    $sql7 = "UPDATE tbuser SET useraddress = '$useraddress', courseid = '$course', districts = '$districts', usercitizen = '$usercitizen', userbirthday = '$userbirthday', userimg = '".basename($_FILES["userimg"]["name"])."' WHERE loginid ='$loginid'";
+    $sql7 = "UPDATE tbuser SET useraddress = '$useraddress', courseid = '$course', districts = '$districts', usercitizen = '$usercitizen', userbirthday = '$userbirthday', userimg = '".basename($_FILES["userimg"]["name"])."' , usertime = NOW() WHERE loginid ='$loginid' ";
     $result7 = mysqli_query($conn, $sql7) or die ("Error in query: $sql7" . mysqli_error($conn));
     //
 

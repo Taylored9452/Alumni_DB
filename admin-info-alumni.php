@@ -2,21 +2,27 @@
 
 
 <?php 
-$sql = "SELECT u.userid , p.prefixaname, CONCAT(f.firstnamename,' ', l.lastnamename) AS full_name , 
-ca.campusname , gr.groupname , br.branchname , co.coursename , emailusername , phoneusername , typename 
-FROM tbuser as u
-join tbhistoryuser as htu on u.userid = htu.userid
-join tbprefix as p on htu.prefixid = p.prefixid
-join tbfirstname as f on htu.firstnameid = f.firstnameid
-join tblastname as l on htu.lastnameid = l.lastnameid
-join tbcourse as co on u.courseid = co.courseid
-join tbbranch as br on co.branchid = br.branchid
-join tbgroup as gr on br.groupid = gr.groupid
-join tbcampus as ca on gr.campusid = ca.campusid
-join tblogin as lo on u.loginid = lo.loginid
-join tbtype as ty on lo.typeid = ty.typeid
-join tbemailuser as mu on htu.historyuserid = mu.historyuserid
-join tbphoneuser as pu on htu.historyuserid = pu.historyuserid;";
+$sql = "SELECT u.userid, p.prefixaname, CONCAT(f.firstnamename,' ', l.lastnamename) AS full_name,
+ca.campusname, gr.groupname, br.branchname, co.coursename, emailusername, phoneusername, typename
+FROM tbuser AS u
+LEFT JOIN (
+SELECT MAX(historyuserid) AS max_historyuserid, userid
+FROM tbhistoryuser
+GROUP BY userid
+) AS latest_history ON u.userid = latest_history.userid
+LEFT JOIN tbhistoryuser AS htu ON latest_history.max_historyuserid = htu.historyuserid
+LEFT JOIN tbprefix AS p ON htu.prefixid = p.prefixid
+LEFT JOIN tbfirstname AS f ON htu.firstnameid = f.firstnameid
+LEFT JOIN tblastname AS l ON htu.lastnameid = l.lastnameid
+LEFT JOIN tbcourse AS co ON u.courseid = co.courseid
+LEFT JOIN tbbranch AS br ON co.branchid = br.branchid
+LEFT JOIN tbgroup AS gr ON br.groupid = gr.groupid
+LEFT JOIN tbcampus AS ca ON gr.campusid = ca.campusid
+LEFT JOIN tblogin AS lo ON u.loginid = lo.loginid
+LEFT JOIN tbtype AS ty ON lo.typeid = ty.typeid
+LEFT JOIN tbemailuser AS mu ON htu.historyuserid = mu.historyuserid
+LEFT JOIN tbphoneuser AS pu ON htu.historyuserid = pu.historyuserid
+ORDER BY u.userid, htu.historyuserid ;";
 $query_sql = mysqli_query($conn, $sql);
 ?>
 

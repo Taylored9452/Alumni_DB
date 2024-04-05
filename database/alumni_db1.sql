@@ -89,6 +89,7 @@ CREATE TABLE tbuser(
     userbirthday              	date            	DEFAULT CURRENT_TIMESTAMP NULL,
     usercitizen              	varchar(13)        	NULL,
     userimg              		mediumtext        	NULL,
+    usertime					timestamp            DEFAULT CURRENT_TIMESTAMP NULL,
     
     PRIMARY KEY (userid),
     constraint FK_User_Loginname foreign key (loginid) references tblogin(loginid) ON update cascade
