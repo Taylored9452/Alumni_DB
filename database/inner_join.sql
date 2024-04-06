@@ -70,6 +70,28 @@ LEFT JOIN tbemailcom AS mc ON co.companyid = mc.companyid
 LEFT JOIN tbphonecom AS pc ON co.companyid = pc.companyid
 GROUP BY u.userid, htu.historyuserid, htc.historycomid;
 
- DELETE FROM tblogin WHERE loginid = 3;
+ SELECT u.userid, u.loginid, p.prefixaname, f.firstnamename, l.lastnamename ,
+    ca.campusname, gr.groupname, br.branchname, co.coursename, emailusername, phoneusername, typename
+    FROM tbuser AS u
+    LEFT JOIN (
+    SELECT MAX(historyuserid) AS max_historyuserid, userid
+    FROM tbhistoryuser
+    GROUP BY userid
+    ) AS latest_history ON u.userid = latest_history.userid
+    LEFT JOIN tbhistoryuser AS htu ON latest_history.max_historyuserid = htu.historyuserid
+    LEFT JOIN tbprefix AS p ON htu.prefixid = p.prefixid
+    LEFT JOIN tbfirstname AS f ON htu.firstnameid = f.firstnameid
+    LEFT JOIN tblastname AS l ON htu.lastnameid = l.lastnameid
+    LEFT JOIN tbcourse AS co ON u.courseid = co.courseid
+    LEFT JOIN tbbranch AS br ON co.branchid = br.branchid
+    LEFT JOIN tbgroup AS gr ON br.groupid = gr.groupid
+    LEFT JOIN tbcampus AS ca ON gr.campusid = ca.campusid
+    LEFT JOIN tblogin AS lo ON u.loginid = lo.loginid
+    LEFT JOIN tbtype AS ty ON lo.typeid = ty.typeid
+    LEFT JOIN tbemailuser AS mu ON htu.historyuserid = mu.historyuserid
+    LEFT JOIN tbphoneuser AS pu ON htu.historyuserid = pu.historyuserid
+    WHERE u.userid = '1'
+    ORDER BY u.userid, htu.historyuserid ;
+    
 
 

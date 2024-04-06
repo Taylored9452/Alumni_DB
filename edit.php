@@ -6,26 +6,86 @@
     // echo '<pre>';
     // print_r($_SESSION);
     // echo '</pre>';
-
+    
     $loginid = $_SESSION['loginid'];
 
     $sql_user = "SELECT * FROM tbuser WHERE loginid = '$loginid'";
     $query3 = mysqli_query($conn, $sql_user) or die ("Error in query: $sql2" . mysqli_error());
 
-    $row1 = mysqli_fetch_array($query3);
-    extract($row1);
+    $rowU = mysqli_fetch_array($query3);
+    extract($rowU);
 
-    $loginid = $row1['loginid'];
+    $loginid = $rowU['loginid'];
+    $userid = $rowU['userid'];
 
-    // echo '<pre>';
-    // print_r($row1);
-    // echo '</pre>';
+    //  echo '<pre>';
+    //  print_r($rowU);
+    //  echo '</pre>';
 
     $sql_provinces = "SELECT * FROM provinces";
     $query = mysqli_query($conn, $sql_provinces);
 
     $sql_campus = "SELECT * FROM tbcampus";
     $query2 = mysqli_query($conn, $sql_campus);
+
+    $sql = "SELECT u.userid, u.loginid, p.prefixaname, p.prefixname, f.firstnamename, l.lastnamename ,
+    ca.campusname, gr.groupname, br.branchname, co.coursename, emailusername, phoneusername, typename
+    FROM tbuser AS u
+    LEFT JOIN (
+    SELECT MAX(historyuserid) AS max_historyuserid, userid
+    FROM tbhistoryuser
+    GROUP BY userid
+    ) AS latest_history ON u.userid = latest_history.userid
+    LEFT JOIN tbhistoryuser AS htu ON latest_history.max_historyuserid = htu.historyuserid
+    LEFT JOIN tbprefix AS p ON htu.prefixid = p.prefixid
+    LEFT JOIN tbfirstname AS f ON htu.firstnameid = f.firstnameid
+    LEFT JOIN tblastname AS l ON htu.lastnameid = l.lastnameid
+    LEFT JOIN tbcourse AS co ON u.courseid = co.courseid
+    LEFT JOIN tbbranch AS br ON co.branchid = br.branchid
+    LEFT JOIN tbgroup AS gr ON br.groupid = gr.groupid
+    LEFT JOIN tbcampus AS ca ON gr.campusid = ca.campusid
+    LEFT JOIN tblogin AS lo ON u.loginid = lo.loginid
+    LEFT JOIN tbtype AS ty ON lo.typeid = ty.typeid
+    LEFT JOIN tbemailuser AS mu ON htu.historyuserid = mu.historyuserid
+    LEFT JOIN tbphoneuser AS pu ON htu.historyuserid = pu.historyuserid
+    WHERE u.userid = '$userid'
+    ORDER BY u.userid, htu.historyuserid ;";
+    $query_sql = mysqli_query($conn, $sql);
+    $row2 = mysqli_fetch_array($query_sql);
+    extract($row2);
+
+    // echo '<pre>';
+    // print_r($row2);
+    // echo '</pre>';
+
+    $sql2 = "SELECT u.userid, p.prefixaname, CONCAT(f.firstnamename, ' ', l.lastnamename) AS full_name, co.companyname, co.companyjob, mc.emailcomname, pc.phonecomname
+    FROM tbuser AS u
+    LEFT JOIN (
+        SELECT MAX(historycomid) AS max_historycomid, userid
+        FROM tbhistorycom
+        GROUP BY userid
+    ) AS latest_history_com ON u.userid = latest_history_com.userid
+    LEFT JOIN tbhistorycom AS htc ON latest_history_com.max_historycomid = htc.historycomid
+    LEFT JOIN (
+        SELECT MAX(historyuserid) AS max_historyuserid, userid
+        FROM tbhistoryuser
+        GROUP BY userid
+    ) AS latest_history_user ON u.userid = latest_history_user.userid
+    LEFT JOIN tbhistoryuser AS htu ON latest_history_user.max_historyuserid = htu.historyuserid
+    LEFT JOIN tbprefix AS p ON htu.prefixid = p.prefixid
+    LEFT JOIN tbfirstname AS f ON htu.firstnameid = f.firstnameid
+    LEFT JOIN tblastname AS l ON htu.lastnameid = l.lastnameid
+    LEFT JOIN tbcompany AS co ON htc.companyid = co.companyid
+    LEFT JOIN tbemailcom AS mc ON co.companyid = mc.companyid
+    LEFT JOIN tbphonecom AS pc ON co.companyid = pc.companyid
+    GROUP BY u.userid, htu.historyuserid, htc.historycomid;";
+    $query_sql2 = mysqli_query($conn, $sql2);
+    $row3 = mysqli_fetch_array($query_sql2);
+    extract($row3);
+
+    // echo '<pre>';
+    // print_r($row3);
+    // echo '</pre>';
 
 // ตรวจสอบว่าฟอร์มถูกส่งมาหรือไม่
 if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -197,16 +257,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <span style="color: red; font-size: smaller;">*</span> <span style="color: red; font-size: smaller;">จำเป็นต้องมีข้อมูล</span>
             <br>
             <select name="prefixid" id="prefixDropdown" class="custom-dropdown" required>
-            <option value="" selected disabled>-คำนำหน้า-</option>
+            <option value="" disabled>-คำนำหน้า-</option>
             <?php
             // วนลูปเพื่อแสดงตัวเลือกใน dropdown
             $prefixaname = mysqli_query($conn, "SELECT * FROM tbprefix");
             while ($row = mysqli_fetch_assoc($prefixaname)) {
+                $selected = ($row['prefixid'] == $row2['prefixid']) ? "selected" : ""; // เช็คว่าค่าเท่ากับค่าในฐานข้อมูลหรือไม่
             ?>
-                <option value="<?php echo $row['prefixid'] ?>"><?php echo $row['prefixname'] ?></option>
+                <option value="<?php echo $row['prefixid'] ?>" <?php echo $selected ?>><?php echo $row['prefixname'] ?></option>
             <?php } ?>
-        </select>
-        <br><br>
+            </select>
+            <br><br>
 
         <!-- <script>
             // สร้างฟังก์ชันเมื่อมีการเปลี่ยนแปลงใน dropdown
@@ -224,13 +285,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <!-- <input type="text" name="firstnamename" placeholder="ชื่อ" required><br>
         <input type="text" name="lastnamename" placeholder="นามสกุล" required><br> -->
+        <label for="sel1">ชื่อ:</label>
         <span style="color: red; font-size: smaller;">*</span> <span style="color: red; font-size: smaller;">จำเป็นต้องมีข้อมูล</span>
-        <input type="text" name="firstnamename" placeholder="ชื่อ" required><br>
+        <input type="text" name="firstnamename" placeholder="ชื่อ" required value="<?php echo $row2['firstnamename'];?>"><br>
+        <label for="sel1">นามสกุล:</label>
         <span style="color: red; font-size: smaller;">*</span> <span style="color: red; font-size: smaller;">จำเป็นต้องมีข้อมูล</span> 
-        <input type="text" name="lastnamename" placeholder="นามสกุล" required><br>  
-        <input type="email" name="emailusername" placeholder="อีเมล"><br>
-        <input type="text" name="phoneusername" placeholder="เบอร์ติดต่อ"><br>
-        <input type="text" name="useraddress" placeholder="บ้านเลขที่/ถนน"><br>
+        <input type="text" name="lastnamename" placeholder="นามสกุล" required value="<?php echo $row2['lastnamename'];?>"><br>
+        <label for="sel1">อีเมล:</label>  
+        <input type="email" name="emailusername" placeholder="อีเมล" value="<?php echo $row2['emailusername'];?>"><br>
+        <label for="sel1">เบอร์ติดต่อ:</label>
+        <input type="text" name="phoneusername" placeholder="เบอร์ติดต่อ" value="<?php echo $row2['phoneusername'];?>"><br>
+        <label for="sel1">บ้านเลขที่/ถนน:</label>
+        <input type="text" name="useraddress" placeholder="บ้านเลขที่/ถนน" value="<?php echo $rowU['useraddress'];?>"><br>
          
         
             <label for="sel1">จังหวัด:</label>
@@ -282,13 +348,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         </select>
         <br>
         
-        <input type="text" name="usercitizen" placeholder="เลขบัตรประชาชน" maxlength="13"><br><br>
+        <label for="sel1">เลขบัตรประชาชน:</label>
+        <input type="text" name="usercitizen" placeholder="เลขบัตรประชาชน" maxlength="13" value="<?php echo $rowU['usercitizen'];?>"><br><br>
         <label for="sel1">วันเกิด:&nbsp;&nbsp;</label>
-        <input type="date" name="userbirthday" placeholder="วัน/เดือน/ปีเกิด"><br><br>
-        <input type="text" name="companyname" placeholder="ชื่อสถานที่ทำงาน"><br>
-        <input type="text" name="companyjob" placeholder="ตำแหน่ง"><br>
-        <input type="text" name="emailcomname" placeholder="อีเมลที่ทำงาน"><br>
-        <input type="text" name="phonecomname" placeholder="เบอร์ที่ทำงาน"><br>
+        <input type="date" name="userbirthday" placeholder="วัน/เดือน/ปีเกิด" value="<?php echo $rowU['userbirthday'];?>"><br><br>
+        <label for="sel1">ชื่อสถานที่ทำงาน:</label>
+        <input type="text" name="companyname" placeholder="ชื่อสถานที่ทำงาน" value="<?php echo $row3['companyname'];?>"><br>
+        <label for="sel1">ตำแหน่งงาน:</label>
+        <input type="text" name="companyjob" placeholder="ตำแหน่ง" value="<?php echo $row3['companyjob'];?>"><br>
+        <label for="sel1">อีเมลที่ทำงาน:</label>
+        <input type="text" name="emailcomname" placeholder="อีเมลที่ทำงาน" value="<?php echo $row3['emailcomname'];?>"><br>
+        <label for="sel1">เบอร์ที่ทำงาน:</label>
+        <input type="text" name="phonecomname" placeholder="เบอร์ที่ทำงาน" value="<?php echo $row3['phonecomname'];?>"><br>
         
             <label for="sel1">จังหวัด:</label>
             <select class="form-control" name="Cef_prov_id" id="province">
