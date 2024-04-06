@@ -34,7 +34,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $prefixid = $_POST['prefixid'];
 
     if (!empty($prefixid)) {
-        echo "ค่า prefixid ถูกส่งมา: $prefixid";
+        // echo "ค่า prefixid ถูกส่งมา: $prefixid";
     } else {
         echo "โปรดเลือกคำนำหน้า";
     } 
@@ -108,13 +108,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $historyuser_id = mysqli_insert_id($conn);  //คำสั่งดึง id ตัวล่าสุด mysqli_insert_id
 
-    echo $historyuser_id;
+    // echo $historyuser_id;
     
     $sql5 = "INSERT IGNORE INTO tbemailuser (emailusername, historyuserid) VALUES ('$emailusername', '$historyuser_id') on duplicate key update historyuserid = values(historyuserid)";  //นำเข้าข้อมูลโดยใช้ historyuser_id ล่าสุด
     $result5 = mysqli_query($conn, $sql5) or die ("Error in query: $sql5" . mysqli_error());
     
 
-    echo $emailusername;
+    // echo $emailusername;
 
     $sql6 = "INSERT IGNORE INTO tbphoneuser (phoneusername, historyuserid) VALUES ('$phoneusername', '$historyuser_id') on duplicate key update historyuserid = values(historyuserid)";
     $result6 = mysqli_query($conn, $sql6) or die ("Error in query: $sql6" . mysqli_error());

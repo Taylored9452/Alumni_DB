@@ -2,16 +2,27 @@
 
 
 <?php 
-$sql = "SELECT u.userid , p.prefixaname, CONCAT(f.firstnamename,' ', l.lastnamename) AS full_name , companyname , companyjob , emailcomname , phonecomname
-FROM tbuser as u
-join tbhistorycom as htc on u.userid = htc.userid
-join tbhistoryuser as htu on u.userid = htu.userid
-join tbprefix as p on htu.prefixid = p.prefixid
-join tbfirstname as f on htu.firstnameid = f.firstnameid
-join tblastname as l on htu.lastnameid = l.lastnameid
-join tbcompany as co on htc.companyid = co.companyid
-join tbemailcom as mc on co.companyid = mc.companyid
-join tbphonecom as pc on co.companyid = pc.companyid;";
+$sql = "SELECT u.userid, p.prefixaname, CONCAT(f.firstnamename, ' ', l.lastnamename) AS full_name, co.companyname, co.companyjob, mc.emailcomname, pc.phonecomname
+FROM tbuser AS u
+LEFT JOIN (
+    SELECT MAX(historycomid) AS max_historycomid, userid
+    FROM tbhistorycom
+    GROUP BY userid
+) AS latest_history_com ON u.userid = latest_history_com.userid
+LEFT JOIN tbhistorycom AS htc ON latest_history_com.max_historycomid = htc.historycomid
+LEFT JOIN (
+    SELECT MAX(historyuserid) AS max_historyuserid, userid
+    FROM tbhistoryuser
+    GROUP BY userid
+) AS latest_history_user ON u.userid = latest_history_user.userid
+LEFT JOIN tbhistoryuser AS htu ON latest_history_user.max_historyuserid = htu.historyuserid
+LEFT JOIN tbprefix AS p ON htu.prefixid = p.prefixid
+LEFT JOIN tbfirstname AS f ON htu.firstnameid = f.firstnameid
+LEFT JOIN tblastname AS l ON htu.lastnameid = l.lastnameid
+LEFT JOIN tbcompany AS co ON htc.companyid = co.companyid
+LEFT JOIN tbemailcom AS mc ON co.companyid = mc.companyid
+LEFT JOIN tbphonecom AS pc ON co.companyid = pc.companyid
+GROUP BY u.userid, htu.historyuserid, htc.historycomid;";
 $query_sql = mysqli_query($conn, $sql);
 ?>
 

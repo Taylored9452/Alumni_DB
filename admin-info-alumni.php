@@ -2,7 +2,7 @@
 
 
 <?php 
-$sql = "SELECT u.userid, p.prefixaname, CONCAT(f.firstnamename,' ', l.lastnamename) AS full_name,
+$sql = "SELECT u.userid, u.loginid, p.prefixaname, CONCAT(f.firstnamename,' ', l.lastnamename) AS full_name,
 ca.campusname, gr.groupname, br.branchname, co.coursename, emailusername, phoneusername, typename
 FROM tbuser AS u
 LEFT JOIN (
@@ -49,6 +49,7 @@ $query_sql = mysqli_query($conn, $sql);
         <table id="user" class="table table-striped">
             <thead>
                 <th>ลำดับ</th>
+                <th>ผู้ใช้</th>
                 <th>คำนำหน้า</th>
                 <th>ชื่อ นามสกุล</th>
                 <th>วิทยาเขต</th>
@@ -67,6 +68,7 @@ $query_sql = mysqli_query($conn, $sql);
     ?>
             <tr>
                 <td><?php echo $row['userid']; ?></td>
+                <td><?php echo $row['loginid']; ?></td>
                 <td><?php echo $row['prefixaname']; ?></td>
                 <td class="name"><?php echo $row['full_name'];?></td>
                 <td><?php echo $row['campusname']; ?></td>
@@ -77,9 +79,9 @@ $query_sql = mysqli_query($conn, $sql);
                 <td><?php echo $row['phoneusername']; ?></td>
                 <td><?php echo $row['typename']; ?></td>
                 <td><a href="edit.php?userid=<?php echo $row['userid']; ?>" class="btn btn-primary btn-sm">แก้ไข</a></td>
-                <td><a href="delete.php?userid=<?php echo $row['userid']; ?>" class="btn btn-danger btn-sm">ลบ</a></td> <!-- เพิ่มส่วนนี้ในการแสดงปุ่มแก้ไขในแต่ละแถว -->
+                <td><a href="delete.php?userid=<?php echo $row['userid']; ?>&loginid=<?php echo $row['loginid']; ?>" class="btn btn-danger btn-sm">ลบ</a></td> <!-- เพิ่มส่วนนี้ในการแสดงปุ่มแก้ไขในแต่ละแถว -->
             </tr>
-    <?php
+    <?php 
         }
     ?>
             </tbody>
@@ -88,7 +90,14 @@ $query_sql = mysqli_query($conn, $sql);
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
     <script>
-        let table = new DataTable('#user');
+        // let table = new DataTable('#user');
+        $(document).ready(function() {
+        let table = $('#user').DataTable({
+            "columnDefs": [
+                { "targets": [1], "visible": false } // ซ่อนคอลัมน์ที่สอง (ดัชนี 1)
+            ]
+        });
+    });
     </script>
 </body>
 </html>
