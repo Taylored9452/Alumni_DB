@@ -70,7 +70,7 @@
                 <hr>
                 <div class="row">
                     <div class="col">
-                        <p>Page content goes here</p>
+                        <p>รอปรับปรุงเพิ่มในอนาคต</p>
                     </div>
                 </div>
             </div>

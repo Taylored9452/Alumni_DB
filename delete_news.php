@@ -2,60 +2,8 @@
 <html>
 
 <head>
-    <title>รายการข่าวสาร</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        th {
-            background-color: #333333;
-            color: white;
-        }
-
-        .confirm-delete {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .add-news-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s; /* เพิ่มการเปลี่ยนสีเมื่อโฮเวอร์ */
-        }
-
-        .add-news-btn:hover {
-            background-color: #0056b3; /* สีเมื่อโฮเวอร์ */
-        }
-    </style>
+    <title>รายการประชาสัมพันธ์</title>
+    <link href="css/style-delete.css" rel="stylesheet" />
     <script>
         function confirmDelete() {
             return confirm("คุณต้องการลบข่าวสารนี้?");

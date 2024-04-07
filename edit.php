@@ -392,6 +392,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <br>
 
         <button type="submit">ยืนยัน</button>
+        <a href="index.php" class="btn btn-secondary">ยกเลิก</a>
     </form>
 </body>
 </html>

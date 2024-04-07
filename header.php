@@ -1,6 +1,15 @@
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="css/style-header.css" rel="stylesheet" />
-
+<style>
+  .carousel-control-next-icon {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+  }
+  .carousel-control-prev-icon {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+  }
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+    background-color: #f2f2f2; 
+  }
+</style>
 
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">

@@ -3,7 +3,8 @@
 
 <?php 
 $sql = "SELECT u.userid, u.loginid, p.prefixaname, CONCAT(f.firstnamename,' ', l.lastnamename) AS full_name,
-ca.campusname, gr.groupname, br.branchname, co.coursename, emailusername, phoneusername, typename
+CONCAT(ca.campusname,' ', gr.groupname,' ', br.branchname,' ', co.coursename) AS full_campus, 
+emailusername, phoneusername, typename
 FROM tbuser AS u
 LEFT JOIN (
 SELECT MAX(historyuserid) AS max_historyuserid, userid
@@ -52,14 +53,10 @@ $query_sql = mysqli_query($conn, $sql);
                 <th>ผู้ใช้</th>
                 <th>คำนำหน้า</th>
                 <th>ชื่อ นามสกุล</th>
-                <th>วิทยาเขต</th>
-                <th>คณะ</th>
-                <th>สาขา</th>
-                <th>หลักสูตร</th>
+                <th>มหาวิทยาลัยจบการศึกษา</th>
                 <th>อีเมล</th>
                 <th>เบอร์ติดต่อ</th>
                 <th>สถาณะ</th>
-                <th>แก้ไข</th>
                 <th>ลบ</th>
             </thead>
         <tbody>
@@ -71,14 +68,10 @@ $query_sql = mysqli_query($conn, $sql);
                 <td><?php echo $row['loginid']; ?></td>
                 <td><?php echo $row['prefixaname']; ?></td>
                 <td class="name"><?php echo $row['full_name'];?></td>
-                <td><?php echo $row['campusname']; ?></td>
-                <td><?php echo $row['groupname']; ?></td>
-                <td><?php echo $row['branchname']; ?></td>
-                <td><?php echo $row['coursename']; ?></td>
+                <td class="name"><?php echo $row['full_campus'];?></td> 
                 <td><?php echo $row['emailusername']; ?></td>
                 <td><?php echo $row['phoneusername']; ?></td>
                 <td><?php echo $row['typename']; ?></td>
-                <td><a href="edit.php?userid=<?php echo $row['userid']; ?>" class="btn btn-primary btn-sm">แก้ไข</a></td>
                 <td><a href="delete.php?userid=<?php echo $row['userid']; ?>&loginid=<?php echo $row['loginid']; ?>" class="btn btn-danger btn-sm">ลบ</a></td> <!-- เพิ่มส่วนนี้ในการแสดงปุ่มแก้ไขในแต่ละแถว -->
             </tr>
     <?php 

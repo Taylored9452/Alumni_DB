@@ -94,7 +94,7 @@ $query_sql = mysqli_query($conn, $sql);
         <?php while($row = mysqli_fetch_assoc($query_sql)) { ?>
             <div class="detail-box">
                 <h5>ชื่อ : <?php echo $row['prefixaname']; ?> <?php echo $row['full_name']; ?></h5>
-                <img src="Uploads/<?php echo $row['userimg']; ?>" alt="&nbsp;&nbsp;ยังไม่มีภาพ">
+                <img src="Uploads/<?php echo $row['userimg']; ?>" alt="&nbsp;&nbsp;ยังไม่มีภาพ"><br><br>
                 <p>วิทยาเขต : <?php echo $row['campusname']; ?></p>
                 <p>คณะ : <?php echo $row['groupname']; ?></p>
                 <p>สาขา : <?php echo $row['branchname']; ?></p>
