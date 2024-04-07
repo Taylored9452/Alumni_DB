@@ -161,16 +161,15 @@ CREATE TABLE tbphoneuser(
 
 -- TB post
 
-CREATE TABLE tbpostwork(
-	postworkid					int(10)        		 NOT NULL AUTO_INCREMENT,
-    postworkimg              	mediumtext        NULL, -- mediumtext
-    postworktext              	mediumtext        COLLATE utf16_general_ci NULL, -- mediumtext
-    postworkdatetime            timestamp        	DEFAULT CURRENT_TIMESTAMP NULL,
-    postworksummit				boolean            	DEFAULT FALSE  NOT NULL,
-    userid						int(10)        		 NOT NULL,
+CREATE TABLE news(
+	id					        int(10)        		 NOT NULL AUTO_INCREMENT,
+    title              	        varchar(255)        COLLATE utf16_general_ci NULL,
+    content              	    mediumtext          COLLATE utf16_general_ci NULL, 
+    image                       mediumtext        	COLLATE utf16_general_ci NULL,
+    created_at				    timestamp            DEFAULT CURRENT_TIMESTAMP NULL,
+    category_id					int(10)        		 NOT NULL,
     
-    PRIMARY KEY (postworkid), 
-    constraint FK_Postwork_User foreign key (userid) references tbuser(userid) ON update cascade
+    constraint PK_Type primary key (id) 
 )ENGINE=InnoDB default charset=utf16;
 
 ALTER TABLE tbpostwork
