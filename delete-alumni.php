@@ -7,6 +7,9 @@ if(isset($_GET['userid']) && isset($_GET['loginid'])) {
     $userid = $_GET['userid'];
     $loginid = $_GET['loginid'];
 
+    echo $userid;
+    echo $loginid;
+    
     // ตรวจสอบว่ามีการกดปุ่มยืนยันการลบหรือไม่
     if(isset($_POST['confirm'])) {
         // สร้างคำสั่ง SQL สำหรับลบข้อมูลผู้ใช้
@@ -22,7 +25,7 @@ if(isset($_GET['userid']) && isset($_GET['loginid'])) {
         // ตรวจสอบการลบข้อมูล
         if($result_delete_user && $result_delete_login) {
             // หากลบสำเร็จให้ redirect กลับไปยังหน้าเว็บที่แสดงข้อมูล
-            header("Location: admin-job.php");
+            header("Location: admin-alumni.php");
             exit;
         } else {
             // หากเกิดข้อผิดพลาดในการลบข้อมูล

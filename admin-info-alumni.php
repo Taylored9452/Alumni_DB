@@ -72,14 +72,14 @@ $query_sql = mysqli_query($conn, $sql);
                 <td><?php echo $row['emailusername']; ?></td>
                 <td><?php echo $row['phoneusername']; ?></td>
                 <td><?php echo $row['typename']; ?></td>
-                <td><a href="delete.php?userid=<?php echo $row['userid']; ?>&loginid=<?php echo $row['loginid']; ?>" class="btn btn-danger btn-sm">ลบ</a></td> <!-- เพิ่มส่วนนี้ในการแสดงปุ่มแก้ไขในแต่ละแถว -->
+                <td><a href="delete-alumni.php?userid=<?php echo $row['userid']; ?>&loginid=<?php echo $row['loginid']; ?>" class="btn btn-danger btn-sm">ลบ</a></td> <!-- เพิ่มส่วนนี้ในการแสดงปุ่มแก้ไขในแต่ละแถว -->
             </tr>
     <?php 
         }
     ?>
-            </tbody>
+        </tbody>
         </table>
-        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
     <script>
