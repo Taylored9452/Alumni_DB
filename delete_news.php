@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <h1 style="text-align: center;">รายการข่าวสาร <a href="message.php" class="add-news-btn">เพิ่มข่าวสาร</a></h1>
+    <h1 style="text-align: center;">รายการประชาสัมพันธ์ <a href="message.php" class="add-news-btn">เพิ่มข่าวสาร</a></h1>
     <table>
         <tr>
             <th>ID</th>
