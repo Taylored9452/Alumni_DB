@@ -13,7 +13,7 @@ $query_sql = mysqli_query($conn, $sql);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Sidebar 1</title>
+    <title>Admin งาน</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,20 +45,14 @@ $query_sql = mysqli_query($conn, $sql);
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="admin-news.php" class=""> 
+                    <a href="admin-news.php" class=""> <!-- ลิ้งไปหน้า admin-news.php -->
                         <i class="fa-solid fa-star"></i>
                         ข่าวสาร
                     </a>
                 </li>
             </ul>
             <hr>
-            <div class="d-flex">
-                <img src="img/profile_user.jpeg" class="img-fluid rounded me-2" width="50px" alt="">
-                <span>
-                    <h6 class="mt-1 mb-0">John Doe</h6>
-                    <small>johndoe@remotedev</small>
-                </span>
-            </div>
+
         </div>
 
         <div class="bg-light flex-fill">

@@ -78,6 +78,7 @@
     LEFT JOIN tbcompany AS co ON htc.companyid = co.companyid
     LEFT JOIN tbemailcom AS mc ON co.companyid = mc.companyid
     LEFT JOIN tbphonecom AS pc ON co.companyid = pc.companyid
+    WHERE u.userid = '$userid'
     GROUP BY u.userid, htu.historyuserid, htc.historycomid;";
     $query_sql2 = mysqli_query($conn, $sql2);
     $row3 = mysqli_fetch_array($query_sql2);
@@ -244,7 +245,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- แท็กเมตา, ลิงก์ CSS, และอื่น ๆ -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Sidebar 1</title>
+    <title>แก้ไขจ้อมูลส่วนตัว</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/style-add.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

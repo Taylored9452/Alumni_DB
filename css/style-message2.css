@@ -1,0 +1,208 @@
+@media only screen and (max-width: 600px) {
+    .news-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .news-image {
+        margin-right: 0;
+        float: none;
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .news-content {
+        text-align: center;
+        white-space: pre-line;
+    }
+}
+
+body {
+    text-align: center;
+}
+
+.news-image {
+    float: left;
+    margin-right: 20px;
+    max-width: 300px;
+    height: 200px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.news-container {
+    display: inline-block;
+    text-align: left;
+    margin-top: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.news-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.news-image {
+    float: left;
+    margin-right: 20px;
+    max-width: 300px;
+    height: auto;
+    flex: 0 0 300px;
+}
+
+.news-content {
+    flex: 1;
+    overflow: hidden;
+    text-align: left;
+}
+
+.post-meta {
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+.category-select {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.category-select select {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.category-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    border-radius: 20px;
+    border: 1px solid #333333;
+    /* แก้เป็นสีส้ม */
+    background-color: #333333;
+    /* แก้เป็นสีส้ม */
+    color: #f0f0f0;
+    /* เปลี่ยนสีตัวอักษรเป็นสีของเว็บ */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.category-button:hover {
+    background-color: #e0e0e0;
+    color: #333333;
+    text-decoration: none;
+}
+
+.category-button.active {
+    background-color: #333333;
+    color: white;
+    border-color: #333333;
+}
+
+.category-select {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.category-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    border-radius: 20px;
+    border: 1px solid #333333;
+    background-color: #333333;
+    color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+    /* เพิ่มขอบล่างเพื่อเว้นระยะห่างระหว่างปุ่ม */
+}
+a {
+    text-decoration: none;
+}
+h2 {
+font-family: Arial, sans-serif; /* เปลี่ยนแบบอักษร */
+font-size: 40px; /* เปลี่ยนขนาดตัวอักษร */
+color: #333; /* เปลี่ยนสีตัวอักษร */
+text-transform: uppercase; /* ทำให้ตัวอักษรเป็นตัวใหญ่ทั้งหมด */
+text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2); /* เพิ่มเอฟเฟกต์เงาให้กับตัวอักษร */
+margin-bottom: 20px; /* เพิ่มระยะห่างด้านล่าง */
+}
+
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type="file"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        select {
+            width: 100%;
+        }
+
+        input[type="submit"],
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #0056b3;
+        }

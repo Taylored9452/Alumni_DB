@@ -94,7 +94,7 @@ $conn->close();
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="form-container">
-                <h2 class="mb-4">Registration Form</h2>
+                <h2 class="mb-4">สมัรคสมาชิก</h2>
 
                 <!-- แสดงข้อผิดพลาด -->
                 <?php if (!empty($errors)): ?>
@@ -109,22 +109,23 @@ $conn->close();
 
                 <form id="registerForm" method="post" action="register.php">
                     <div class="mb-3">
-                        <label for="loginname" class="form-label">Username</label>
+                        <label for="loginname" class="form-label">ชื่อผู้ใช้</label>
                         <input type="text" class="form-control" id="loginname" name="loginname" required>
                         <div id="usernameError" class="text-danger"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="loginpassword" class="form-label">Password</label>
+                        <label for="loginpassword" class="form-label">รหัสผ่าน</label>
                         <input type="password" class="form-control" id="loginpassword" name="loginpassword" required>
                         <div id="passwordError" class="text-danger"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <label for="confirmPassword" class="form-label">ยืนยันรหัสผ่าน</label>
                         <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                         <div id="confirmPasswordError" class="text-danger"></div>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="registerButton">Register</button>
-                    <a class="btn btn-outline-dark me-2" href="login.php">Login</a>
+                    <button type="submit" class="btn btn-primary" id="registerButton">ยืนยัน</button>
+                    <a class="btn btn-outline-dark me-2" href="login.php">ลงชื่อเข้าใช้</a>
+                    <a href="index.php" class="btn btn-outline-danger me-2">กลับหน้าหลัก</a>
                 </form>
             </div>
         </div>

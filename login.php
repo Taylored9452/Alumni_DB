@@ -50,19 +50,20 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title text-center mb-4">Login</h3>
+                        <h3 class="card-title text-center mb-4">เข้าสู่ระบบ</h3>
                         <form action="login.php" method="post">
                             <div class="mb-3">
-                                <label for="loginname" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="loginname" name="loginname" placeholder="Enter your username">
+                                <label for="loginname" class="form-label">ชื่อผู้ใช้</label>
+                                <input type="text" class="form-control" id="loginname" name="loginname" placeholder="ชื่อผู้ใช้งาน">
                             </div>
                             <div class="mb-3">
-                                <label for="loginpassword" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="Enter your password">
+                                <label for="loginpassword" class="form-label">รหัส</label>
+                                <input type="password" class="form-control" id="loginpassword" name="loginpassword" placeholder="รหัสผ่าน">
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Login</button> 
-                                <a href="register.php" class="btn btn-primary">Register</a>
+                                <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button> 
+                                <a href="register.php" class="btn btn-primary">สมัรคสมาชิก</a>
+                                <a href="index.php" class="btn btn-danger">กลับหน้าหลัก</a>
                             </div>
                         </form>
                     </div>
