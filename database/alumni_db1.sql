@@ -65,7 +65,7 @@ CREATE TABLE tbuser(
     useraddress					varchar(255)        COLLATE utf16_general_ci NULL,
     userbirthday              	date            	DEFAULT CURRENT_TIMESTAMP NULL,
     usercitizen              	varchar(13)        	NULL,
-    userimg              		mediumtext        	NULL,
+    userimg              		mediumtext        	NULL DEFAULT 'alumni.jpg',
     usertime					timestamp            DEFAULT CURRENT_TIMESTAMP NULL,
     
     PRIMARY KEY (userid),
