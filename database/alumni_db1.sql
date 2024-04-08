@@ -42,12 +42,6 @@ CREATE TABLE tbgroup(
     constraint FK_Group_Campus foreign key (campusid) references tbcampus(campusid) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
 
-insert into tbgroup(groupname, campusid) values ('คณะวิศวกรรมศาสตร์',1);
-insert into tbgroup(groupname, campusid) values ('คณะวิทยาศาสตร์',2);
-select * from tbgroup;
-update tbgroup set groupname = 'คณะวิศวกรรมศาสตร์' where groupid = 1;
-update tbgroup set groupname = 'คณะวิทยาศาสตร์' where groupid = 2; 
-
 CREATE TABLE tbbranch(
 	branchid					int(10)        		 NOT NULL AUTO_INCREMENT,
 	branchname              	varchar(50)        COLLATE utf16_general_ci NOT NULL UNIQUE,
@@ -70,15 +64,6 @@ CREATE TABLE tbcourse(
     constraint FK_Course_Branch foreign key (branchid) references tbbranch(branchid) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
 
-insert into tbcourse(coursename, branchid) values ('ปริญญาตรี',1);
-insert into tbcourse(coursename, branchid) values ('ปริญญาโท',2);
-select * from tbcourse;
-select d.campusname, c.groupname, b.branchname , a.coursename
-from tbcourse as a 
-inner join tbbranch as b on a.branchid = b.branchid 
-inner join tbgroup as c on b.groupid = c.groupid 
-inner join tbcampus as d on c.campusid = d.campusid;
-
 CREATE TABLE tbuser(
 	userid						int(10)        		 NOT NULL AUTO_INCREMENT,
 	loginid              		int(11)				 NULL,
@@ -97,9 +82,6 @@ CREATE TABLE tbuser(
     -- constraint FK_User_Course foreign key (courseid) references tbcourse(courseid) ON update cascade
     -- constraint FK_User_districts foreign key (id) references districts(id) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
-
-alter table tbuser MODIFY usercitizen varchar(13) NOT NULL;
-select * from tbuser;
 
 -- TB historyUser
 
@@ -218,53 +200,3 @@ CREATE TABLE tbhistorycom(
     constraint FK_Historycom_User foreign key (userid) references tbuser(userid) ON update cascade,
     constraint FK_Historycom_Company foreign key (companyid) references tbcompany(companyid) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
-
-
-
-
-
-
--- ไม่ใช้งาน
--- TB Place ใช้อันใหม่ที่ อยู่บนบุ็คมาร์ค NO USE
-
-CREATE TABLE tbprovince(
-	provinceid					int(10)        		UNSIGNED NOT NULL AUTO_INCREMENT,
-	provincename              	varchar(50)        COLLATE utf16_general_ci NOT NULL UNIQUE,
-
-    constraint PK_Province primary key (provinceid)
-)ENGINE=InnoDB default charset=utf16;
-
-insert into tbprovince(provincename) values ('สงขลา');
-insert into tbprovince(provincename) values ('สตูล');
-select * from tbprovince;
-
-CREATE TABLE tbcity(
-	cityid						int(10)        		UNSIGNED NOT NULL AUTO_INCREMENT,
-	cityname              		varchar(50)        COLLATE utf16_general_ci NOT NULL UNIQUE,
-	provinceid					int(11)				UNSIGNED NOT NULL,
-    
-    PRIMARY KEY (cityid), 
-    constraint FK_City_Province foreign key (provinceid) references tbprovince(provinceid) ON update cascade
-)ENGINE=InnoDB default charset=utf16;
-
-insert into tbcity(cityname, provinceid) values ('เมืองสงขลา',1);
-insert into tbcity(cityname, provinceid) values ('เมืองสตูล',2);
-select * from tbcity;
-
-CREATE TABLE tbtambon(
-	tambonid					int(10)        		UNSIGNED NOT NULL AUTO_INCREMENT,
-	tambonname              	varchar(50)        COLLATE utf16_general_ci NOT NULL UNIQUE,
-	cityid						int(11)				UNSIGNED NOT NULL,
-    tambonpostcode				int(10)				UNSIGNED NOT NULL,
-    
-    PRIMARY KEY (tambonid), 
-    constraint FK_Tambon_City foreign key (cityid) references tbcity(cityid) ON update cascade
-)ENGINE=InnoDB default charset=utf16;
-
-insert into tbtambon(tambonname,cityid,tambonpostcode) values ('สิงหนคร',1,'90000');
-insert into tbtambon(tambonname,cityid,tambonpostcode) values ('พิมาน',2,'91000');
-select * from tbtambon;
-select a.tambonname, b.cityname, c.provincename , tambonpostcode
-from tbtambon as a 
-inner join tbcity as b on a.cityid = b.cityid
-inner join tbprovince as c on b.provinceid = c.provinceid;
