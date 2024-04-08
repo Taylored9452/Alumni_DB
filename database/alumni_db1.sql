@@ -29,10 +29,6 @@ CREATE TABLE tbcampus(
     constraint PK_Campus primary key (campusid)
 )ENGINE=InnoDB default charset=utf16;
 
-insert into tbcampus(campusname) values ('วิทยาเขตสงขลา');
-insert into tbcampus(campusname) values ('วิทยาเขตสตูล');
-select * from tbcampus;
-
 CREATE TABLE tbgroup(
 	groupid						int(10)        		 NOT NULL AUTO_INCREMENT,
 	groupname              		varchar(50)        COLLATE utf16_general_ci NOT NULL UNIQUE,
@@ -50,10 +46,6 @@ CREATE TABLE tbbranch(
     PRIMARY KEY (branchid), 
     constraint FK_Branch_Group foreign key (groupid) references tbgroup(groupid) ON update cascade
 )ENGINE=InnoDB default charset=utf16;
-
-insert into tbbranch(branchname, groupid) values ('คอมพิวเตอร์',1);
-insert into tbbranch(branchname, groupid) values ('ไฟฟ้า',2);
-select * from tbbranch;
 
 CREATE TABLE tbcourse(
 	courseid					int(10)        		 NOT NULL,
